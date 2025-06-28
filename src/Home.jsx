@@ -1,15 +1,9 @@
 import React from 'react'
-
-// sm = 640px above
-// md = 768px above
-// lg = 1024px above
-// xl = 1280px above
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
-   
-
- <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-green-50 via-teal-50 to-white">
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-green-50 via-teal-50 to-white">
       <main className="flex-1">
         <section
           id="home"
@@ -26,12 +20,12 @@ function Home() {
             <button className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition">
               Get Started
             </button>
-            <a
-              href="Learn More.html"
+            <Link
+              to="/investment"
               className="bg-white border border-teal-400 text-teal-600 font-semibold px-8 py-3 rounded-full shadow hover:bg-teal-50 transition"
             >
               Learn More
-            </a>
+            </Link>
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-10 mt-10">
             <div className="flex flex-col items-center">
@@ -47,11 +41,10 @@ function Home() {
               <p className="text-gray-700 font-medium">Successful Plans</p>
             </div>
           </div>
-        </section>
+           </section>
       </main>
-     
     </div>
   )
 }
 
-export default Home
+export default Home;

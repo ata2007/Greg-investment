@@ -8,6 +8,7 @@ import Home from "./Home"
 import Footer from "./Footer"
 import Contact from "./Contact"
 import Investment from "./Investment"
+import Learnmore from "./Learnmore"
 
 
 
@@ -25,7 +26,7 @@ createRoot(document.getElementById('root')).render(
         <Row5/>
         <Row6/>
          */}
-        
+        {/* <Learnmore/> */}
   <StrictMode>
    <BrowserRouter>
       <Header/>
