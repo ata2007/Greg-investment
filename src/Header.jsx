@@ -43,7 +43,6 @@ function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
           <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-lg border-4 border-cyan-400 animate-spin-slow">
-            {/* You can put your SVG or logo here */}
             <svg className="w-8 h-8" viewBox="0 0 40 40" fill="none">
               <rect x="7" y="22" width="4" height="11" rx="2" fill="#0ea5e9"/>
               <rect x="16" y="16" width="4" height="17" rx="2" fill="#2563eb"/>
@@ -74,7 +73,7 @@ function Header() {
             <FaEnvelope className="text-cyan-200" /> Contact
           </Link>
         </div>
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - only visible on small screens */}
         <button
           className="flex md:hidden items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg border-2 border-cyan-300 text-white text-2xl hover:scale-110 transition"
           onClick={() => setMyNav(true)}
@@ -83,8 +82,10 @@ function Header() {
           <FaBars />
         </button>
       </nav>
-      {/* Attach SideNav here */}
-      <SideNav myNav={myNav} setMyNav={setMyNav} />
+      {/* SideNav only on small screens */}
+      <div className="md:hidden">
+        <SideNav myNav={myNav} setMyNav={setMyNav} />
+      </div>
       {/* Animated blobs */}
       <div className="absolute -bottom-8 left-10 w-24 h-24 bg-cyan-400/40 rounded-full blur-2xl animate-pulse pointer-events-none z-10"></div>
       <div className="absolute -top-8 right-10 w-32 h-32 bg-blue-500/30 rounded-full blur-2xl animate-bounce pointer-events-none z-10"></div>
@@ -92,4 +93,4 @@ function Header() {
   );
 }
 
-export default Header; 
+export default Header;
