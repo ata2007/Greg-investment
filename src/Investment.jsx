@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { FaLeaf, FaGem, FaCrown } from "react-icons/fa";
+import Basicplan from "./Basicplan";
+import Premiumplan from "./Premiumplan";
+import Eliteplan from "./Eliteplan";
 
 function Investment() {
   const [fadeIn, setFadeIn] = useState(false);
@@ -21,7 +24,7 @@ function Investment() {
         background: "linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #0f172a 100%)",
       }}
     >
-      {/* Full background image with crazy blue overlays */}
+      {/* Full background image with overlays */}
       <div className="absolute inset-0 z-0">
         {bgLoaded && (
           <>
@@ -36,7 +39,7 @@ function Investment() {
           </>
         )}
       </div>
-      {/* Animated blue blobs for extra crazy effect */}
+      {/* Animated blobs */}
       <div className="absolute -bottom-10 left-10 w-40 h-40 bg-cyan-400/40 rounded-full blur-2xl animate-pulse pointer-events-none z-10"></div>
       <div className="absolute -top-8 right-10 w-32 h-32 bg-blue-500/30 rounded-full blur-2xl animate-bounce pointer-events-none z-10"></div>
       <main className="flex-1 relative z-20">
@@ -50,9 +53,9 @@ function Investment() {
           </p>
           <div className="grid gap-8 md:grid-cols-3">
             {/* Basic Plan */}
-            <div className="bg-gradient-to-br from-blue-50 via-cyan-50 to-white rounded-2xl shadow-2xl p-8 border-t-8 border-green-400 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <div className="bg-gradient-to-br from-blue-50 via-cyan-50 to-white rounded-2xl shadow-2xl p-8 border-t-8 border-green-400 flex flex-col items-center hover:scale-105 transition-transform duration-300 transform-gpu will-change-transform overflow-hidden">
               <FaLeaf className="text-green-400 text-5xl mb-4 drop-shadow" />
-              <h2 className="text-2xl font-bold text-green-700 mb-2">Basic Plan</h2>
+              <Basicplan />
               <p className="text-blue-900 mb-2 font-semibold">Starting from <span className="font-bold">₦7,000</span></p>
               <ul className="text-blue-700 mb-4 space-y-1 text-sm">
                 <li>Payable Amount: <span className="font-bold">3x start</span></li>
@@ -60,14 +63,12 @@ function Investment() {
                 <li>Best for Beginners</li>
               </ul>
               <p className="font-bold text-green-700 mb-4">Payable after 1 month: <span className="text-teal-500">₦21,000</span></p>
-              <button className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-bold px-8 py-2 rounded-full shadow-xl hover:scale-110 transition text-lg">
-                Get Started
-              </button>
             </div>
             {/* Premium Plan */}
-            <div className="bg-gradient-to-br from-cyan-50 via-blue-50 to-white rounded-2xl shadow-2xl p-8 border-t-8 border-teal-400 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <div className="bg-gradient-to-br from-cyan-50 via-blue-50 to-white rounded-2xl shadow-2xl p-8 border-t-8 border-teal-400 flex flex-col items-center hover:scale-105 transition-transform duration-300 transform-gpu will-change-transform overflow-hidden">
               <FaGem className="text-teal-400 text-5xl mb-4 drop-shadow" />
               <h2 className="text-2xl font-bold text-teal-700 mb-2">Premium Plan</h2>
+              <Premiumplan />
               <p className="text-blue-900 mb-2 font-semibold">Starting from <span className="font-bold">₦20,000</span></p>
               <ul className="text-blue-700 mb-4 space-y-1 text-sm">
                 <li>Payable: <span className="font-bold">3x start</span></li>
@@ -75,14 +76,12 @@ function Investment() {
                 <li>Best for Intermediate Investors</li>
               </ul>
               <p className="font-bold text-teal-700 mb-4">Payable after 1 month: <span className="text-green-500">₦60,000</span></p>
-              <button className="bg-gradient-to-r from-teal-400 to-green-400 text-white font-bold px-8 py-2 rounded-full shadow-xl hover:scale-110 transition text-lg">
-                Get Started
-              </button>
             </div>
             {/* Elite Plan */}
-            <div className="bg-gradient-to-br from-blue-100 via-cyan-100 to-white rounded-2xl shadow-2xl p-8 border-t-8 border-yellow-400 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <div className="bg-gradient-to-br from-blue-100 via-cyan-100 to-white rounded-2xl shadow-2xl p-8 border-t-8 border-yellow-400 flex flex-col items-center hover:scale-105 transition-transform duration-300 transform-gpu will-change-transform overflow-hidden">
               <FaCrown className="text-yellow-400 text-5xl mb-4 drop-shadow" />
               <h2 className="text-2xl font-bold text-yellow-700 mb-2">Elite Plan</h2>
+              <Eliteplan />
               <p className="text-blue-900 mb-2 font-semibold">Starting from <span className="font-bold">₦50,000</span></p>
               <ul className="text-blue-700 mb-4 space-y-1 text-sm">
                 <li>Payable Amount: <span className="font-bold">3x start</span></li>
@@ -90,9 +89,6 @@ function Investment() {
                 <li>Best for Experienced Investors</li>
               </ul>
               <p className="font-bold text-yellow-700 mb-4">Payable after 1 month: <span className="text-teal-500">₦150,000</span></p>
-              <button className="bg-gradient-to-r from-yellow-400 to-teal-400 text-white font-bold px-8 py-2 rounded-full shadow-xl hover:scale-110 transition text-lg">
-                Get Started
-              </button>
             </div>
           </div>
         </section>
@@ -113,13 +109,13 @@ function Investment() {
             <div className="flex flex-col items-center bg-gradient-to-br from-blue-50 via-cyan-50 to-white rounded-xl shadow-xl p-6 border-t-4 border-blue-400">
               <h3 className="text-xl font-bold text-blue-700 mb-2">Tailored Solutions</h3>
               <p className="text-blue-800 text-center font-semibold drop-shadow">
-                We offer personalized investment plans and support, designed to fit your unique goals and risk profile.
+                We offer personalized investment plans and support, designed to fit your unique goals and risk  profile.
               </p>
             </div>
           </div>
         </section>
       </main>
-       </div>
+    </div>
   );
 }
 

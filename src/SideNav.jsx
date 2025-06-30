@@ -6,7 +6,7 @@ import { FaHome, FaInfoCircle, FaChartLine, FaEnvelope } from "react-icons/fa";
 function SideNav({ myNav, setMyNav }) {
   const navRef = useRef();
 
-  // Trap focus and close on outside click
+  // Trap focus and close on outside click or Escape key
   useEffect(() => {
     function handleClickOutside(event) {
       if (myNav && navRef.current && !navRef.current.contains(event.target)) {
