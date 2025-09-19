@@ -1,1 +1,28 @@
 @import "tailwindcss";
+/* Custom scrollbar for sidebar */
+aside::-webkit-scrollbar {
+  width: 4px;
+}
+
+aside::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+aside::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth transitions for dark mode */
+.dark {
+  color-scheme: dark;
+}
+
+/* Animation for the main content */
+main {
+  transition: margin-left 0.3s ease;
+}

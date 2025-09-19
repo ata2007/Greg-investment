@@ -1,96 +1,158 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaBars, FaHome, FaInfoCircle, FaChartLine, FaEnvelope } from "react-icons/fa";
-import SideNav from "./SideNav";
+import React, { useState, useEffect } from 'react';
+import { 
+  FaBell, 
+  FaSearch, 
+  FaUserCircle, 
+  FaCaretDown, 
+  FaHome, 
+  FaChartLine, 
+  FaWallet, 
+  FaNewspaper, 
+  FaCog,
+  FaSignOutAlt
+} from 'react-icons/fa';
+import { Link, useLocation } from 'react-router-dom';
 
-function Header() {
-  const [myNav, setMyNav] = useState(false);
-  const [fadeIn, setFadeIn] = useState(false);
-  const [bgLoaded, setBgLoaded] = useState(false);
+const Header = ({ onOpenSideNav }) => {
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [notifications] = useState(3);
+  const [activeNav, setActiveNav] = useState('dashboard');
 
   useEffect(() => {
-    setTimeout(() => setFadeIn(true), 100);
-    const img = new window.Image();
-    img.src = "/build.jpeg";
-    img.onload = () => setBgLoaded(true);
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Set activeNav based on current location
+  useEffect(() => {
+    const path = location.pathname.replace('/', '') || 'dashboard';
+    setActiveNav(path);
+  }, [location]);
+
   return (
-    <header
-      className={`relative w-full z-30 shadow-lg transition-all duration-1000 ${
-        fadeIn ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6"
-      }`}
-      style={{
-        background: "linear-gradient(120deg, #0ea5e9 0%, #2563eb 50%, #0f172a 100%)"
-      }}
-    >
-      {/* Background and overlays */}
-      <div className="absolute inset-0 z-0">
-        {bgLoaded && (
-          <>
-            <img
-              src="/build.jpeg"
-              alt="Greg Investments Building"
-              className="w-full h-full object-cover object-center"
-              style={{ filter: "brightness(0.5) blur(1px)" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/70 via-blue-900/80 to-cyan-700/80" />
-            <div className="absolute inset-0 bg-gradient-radial from-cyan-400/30 via-transparent to-transparent" />
-          </>
-        )}
-      </div>
-      <nav className="relative z-10 max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+    <header className={`fixed top-0 left-0 w-full z-50 
+      bg-gradient-to-r from-white to-blue-50 backdrop-blur-md bg-opacity-95
+      transition-all duration-300 ease-in-out
+      ${scrolled ? 'py-3 shadow-lg' : 'py-4 shadow-md'}`}>
+      
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+        
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3">
-          <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-lg border-4 border-cyan-400 animate-spin-slow">
-            <svg className="w-8 h-8" viewBox="0 0 40 40" fill="none">
-              <rect x="7" y="22" width="4" height="11" rx="2" fill="#0ea5e9"/>
-              <rect x="16" y="16" width="4" height="17" rx="2" fill="#2563eb"/>
-              <rect x="25" y="10" width="4" height="23" rx="2" fill="#38bdf8"/>
-              <circle cx="20" cy="20" r="18" stroke="url(#header-logo-gradient)" strokeWidth="2"/>
-              <defs>
-                <linearGradient id="header-logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#0ea5e9" />
-                  <stop offset="1" stopColor="#2563eb" />
-                </linearGradient>
-              </defs>
-            </svg>
+        <div className="flex items-center cursor-pointer">
+          <div className="w-10 h-10 flex items-center justify-center 
+            bg-gradient-to-br from-blue-600 to-orange-500 
+            rounded-xl mr-3 transition-all duration-300 hover:rotate-12 hover:scale-110
+            shadow-lg shadow-blue-500/30">
+            <span className="text-white font-bold text-lg">I</span>
+          </div>
+          <span className="text-2xl font-bold text-gray-800">
+            Invest<span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-orange-500">X</span>
           </span>
-          <span className="text-white font-extrabold text-2xl tracking-wide drop-shadow-lg">Greg Investments</span>
-        </Link>
-        {/* Desktop Links */}
-        <div className="hidden md:flex gap-6 text-cyan-100 text-lg font-semibold items-center">
-          <Link to="/" className="flex items-center gap-1 hover:text-yellow-200 transition">
-            <FaHome className="text-cyan-200" /> Home
-          </Link>
-          <Link to="/about" className="flex items-center gap-1 hover:text-yellow-200 transition">
-            <FaInfoCircle className="text-cyan-200" /> About
-          </Link>
-          <Link to="/investment" className="flex items-center gap-1 hover:text-yellow-200 transition">
-            <FaChartLine className="text-cyan-200" /> Investment
-          </Link>
-          <Link to="/contact" className="flex items-center gap-1 hover:text-yellow-200 transition">
-            <FaEnvelope className="text-cyan-200" /> Contact
-          </Link>
         </div>
-        {/* Mobile Menu Button - only visible on small screens */}
-        <button
-          className="flex md:hidden items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg border-2 border-cyan-300 text-white text-2xl hover:scale-110 transition"
-          onClick={() => setMyNav(true)}
-          aria-label="Open menu"
-        >
-          <FaBars />
-        </button>
-      </nav>
-      {/* SideNav only on small screens */}
-      <div className="md:hidden">
-        <SideNav myNav={myNav} setMyNav={setMyNav} />
+
+        {/* Navigation */}
+        <nav className="hidden md:flex space-x-1">
+          {[
+            { id: 'dashboard', label: 'Dashboard', icon: <FaHome className="mr-2" />, to: '/' },
+            { id: 'portfolio', label: 'Portfolio', icon: <FaChartLine className="mr-2" />, to: '/portfolio' },
+            { id: 'market', label: 'Market', icon: <FaWallet className="mr-2" />, to: '/market' },
+            { id: 'articles', label: 'Articles', icon: <FaNewspaper className="mr-2" />, to: '/articles' },
+          ].map((item) => (
+            <Link
+              key={item.id}
+              to={item.to}
+              className={`flex items-center px-4 py-2 rounded-lg transition-all duration-300
+                ${activeNav === item.id 
+                  ? 'bg-blue-100 text-blue-700 shadow-inner' 
+                  : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'}`}
+              onClick={() => setActiveNav(item.id)}
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Search Bar */}
+        <div className="hidden lg:flex relative mr-4">
+          <div className="relative flex items-center">
+            <FaSearch className="absolute left-3 text-gray-400 z-10" />
+            <input
+              type="text"
+              placeholder="Search stocks, funds..."
+              className="pl-10 pr-4 py-2 w-64 rounded-full border border-gray-200 
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                transition-all duration-300 shadow-sm hover:shadow-md"
+            />
+          </div>
+        </div>
+
+        {/* Action Icons */}
+        <div className="flex items-center space-x-4">
+          {/* Notifications */}
+          <div className="relative cursor-pointer p-2 rounded-full hover:bg-gray-100 
+            transition-colors duration-300 group">
+            <FaBell className="text-gray-600 text-xl group-hover:text-blue-600" />
+            {notifications > 0 && (
+              <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs 
+                rounded-full h-5 w-5 flex items-center justify-center
+                animate-pulse shadow-lg shadow-orange-500/40">
+                {notifications}
+              </span>
+            )}
+          </div>
+
+          {/* Profile Dropdown */}
+          <div className="relative">
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-100 
+                transition-colors duration-300"
+            >
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-orange-500 
+                flex items-center justify-center text-white font-semibold text-sm">
+                JD
+              </div>
+              {/* Only show name and caret on md+ screens */}
+              <span className="hidden md:inline-block text-gray-700 font-medium">John Doe</span>
+              <FaCaretDown className={`text-gray-500 transition-transform duration-300 ${menuOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 
+                border border-gray-100 animate-fadeIn">
+                <button className="w-full flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 
+                  transition-colors duration-300">
+                  <FaUserCircle className="mr-3 text-blue-500" />
+                  Profile
+                </button>
+                <button className="w-full flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 
+                  transition-colors duration-300">
+                  <FaCog className="mr-3 text-blue-500" />
+                  Settings
+                </button>
+                <div className="border-t border-gray-100 my-1"></div>
+                <button className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 
+                  transition-colors duration-300">
+                  <FaSignOutAlt className="mr-3" />
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+
+        </div>
       </div>
-      {/* Animated blobs */}
-      <div className="absolute -bottom-8 left-10 w-24 h-24 bg-cyan-400/40 rounded-full blur-2xl animate-pulse pointer-events-none z-10"></div>
-      <div className="absolute -top-8 right-10 w-32 h-32 bg-blue-500/30 rounded-full blur-2xl animate-bounce pointer-events-none z-10"></div>
     </header>
   );
-}
+};
 
 export default Header;

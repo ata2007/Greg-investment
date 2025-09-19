@@ -1,89 +1,183 @@
-import React from 'react'
-import { FaWhatsapp, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { FaTwitter, FaLinkedin, FaGithub, FaEnvelope, FaArrowRight } from "react-icons/fa";
 
 function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email) {
+      setSubscribed(true);
+      setEmail("");
+      // Simulate API call
+      setTimeout(() => setSubscribed(false), 3000);
+    }
+  };
+
   return (
-    <footer
-      className="relative pt-12 pb-6 px-4 text-center shadow-inner overflow-hidden"
-      style={{
-        background: "linear-gradient(120deg, #0ea5e9 0%, #2563eb 50%, #0f172a 100%)",
-      }}
-    >
-      {/* Decorative SVG wave */}
-      <div className="absolute top-0 left-0 w-full h-8 pointer-events-none select-none opacity-40 z-10">
-        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-          <path
-            fill="#fff"
-            fillOpacity="0.3"
-            d="M0,32L48,37.3C96,43,192,53,288,53.3C384,54,480,44,576,37.3C672,32,768,32,864,37.3C960,43,1056,53,1152,53.3C1248,54,1344,44,1392,37.3L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-          />
-        </svg>
-      </div>
-      <div className="relative z-20 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-        {/* Brand and Links */}
-        <div className="flex flex-col items-center md:items-start gap-3">
-          <Link to="/" className="flex items-center gap-2 mb-1">
-            <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white shadow-lg border-4 border-cyan-400">
-              <svg className="w-8 h-8" viewBox="0 0 40 40" fill="none">
-                <rect x="7" y="22" width="4" height="11" rx="2" fill="#0ea5e9"/>
-                <rect x="16" y="16" width="4" height="17" rx="2" fill="#2563eb"/>
-                <rect x="25" y="10" width="4" height="23" rx="2" fill="#38bdf8"/>
-                <circle cx="20" cy="20" r="18" stroke="url(#footer-logo-gradient)" strokeWidth="2"/>
-                <defs>
-                  <linearGradient id="footer-logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#0ea5e9" />
-                    <stop offset="1" stopColor="#2563eb" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </span>
-            <span className="text-white font-extrabold text-2xl tracking-wide drop-shadow-lg">Greg Investments</span>
-          </Link>
-          <div className="flex gap-4 text-cyan-100 text-base font-semibold">
-            <Link to="/" className="hover:text-yellow-200 transition">Home</Link>
-            <Link to="/about" className="hover:text-yellow-200 transition">About</Link>
-            <Link to="/investment" className="hover:text-yellow-200 transition">Investment</Link>
-            <Link to="/contact" className="hover:text-yellow-200 transition">Contact</Link>
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-800 text-gray-200 pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
+        {/* Brand Section */}
+        <div>
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Invest<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-yellow-400">X</span>
+          </h2>
+          <p className="text-gray-300 text-sm mb-4">
+            Building your financial future with smart, secure investments.
+          </p>
+          <div className="flex space-x-4">
+            <a 
+              href="#" 
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center hover:scale-110 transform transition duration-300 shadow-lg"
+            >
+              <FaTwitter className="text-white" />
+            </a>
+            <a 
+              href="#" 
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-700 to-blue-900 flex items-center justify-center hover:scale-110 transform transition duration-300 shadow-lg"
+            >
+              <FaLinkedin className="text-white" />
+            </a>
+            <a 
+              href="#" 
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center hover:scale-110 transform transition duration-300 shadow-lg"
+            >
+              <FaGithub className="text-white" />
+            </a>
           </div>
         </div>
+
+        {/* Navigation */}
+        <div>
+          <h3 className="text-white font-semibold mb-4 text-lg border-l-4 border-orange-500 pl-2">Navigation</h3>
+          <ul className="space-y-3">
+            <li>
+              <a 
+                href="#dashboard" 
+                className="flex items-center text-gray-300 hover:text-orange-400 transition-all duration-300 hover:translate-x-1 group"
+              >
+                <FaArrowRight className="mr-2 text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={12} />
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#portfolio" 
+                className="flex items-center text-gray-300 hover:text-orange-400 transition-all duration-300 hover:translate-x-1 group"
+              >
+                <FaArrowRight className="mr-2 text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={12} />
+                Portfolio
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#market" 
+                className="flex items-center text-gray-300 hover:text-orange-400 transition-all duration-300 hover:translate-x-1 group"
+              >
+                <FaArrowRight className="mr-2 text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={12} />
+                Market
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#articles" 
+                className="flex items-center text-gray-300 hover:text-orange-400 transition-all duration-300 hover:translate-x-1 group"
+              >
+                <FaArrowRight className="mr-2 text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" size={12} />
+                Articles
+              </a>
+            </li>
+          </ul>
+        </div>
+
         {/* Contact Info */}
-        <div className="flex flex-col items-center md:items-end gap-2 text-cyan-100 text-base">
-          <a
-            href="https://wa.me/2348142720641"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-green-200 transition"
-          >
-            <FaWhatsapp className="text-green-200 text-lg" />
-            08142720641
-          </a>
-          <a
-            href="mailto:atemaga@gmail.com"
-            className="flex items-center gap-2 hover:text-cyan-200 transition"
-          >
-            <FaEnvelope className="text-cyan-200 text-lg" />
-            atemaga@gmail.com
-          </a>
-          <div className="flex items-center gap-2">
-            <FaMapMarkerAlt className="text-yellow-200 text-lg" />
-            Lagos, Nigeria
+        <div>
+          <h3 className="text-white font-semibold mb-4 text-lg border-l-4 border-blue-500 pl-2">Contact</h3>
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors duration-300">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+                <FaEnvelope className="text-white" size={14} />
+              </div>
+              <span>support@investx.com</span>
+            </li>
+            <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors duration-300">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+              </div>
+              <span>+1 (555) 123-4567</span>
+            </li>
+            <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-800 transition-colors duration-300">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <span>123 Finance Street, New York, USA</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Newsletter */}
+        <div>
+          <h3 className="text-white font-semibold mb-4 text-lg border-l-4 border-green-500 pl-2">Stay Updated</h3>
+          <p className="text-sm text-gray-300 mb-4">
+            Subscribe to get investment tips and platform updates.
+          </p>
+          <form onSubmit={handleSubmit} className="relative">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your email"
+              className="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 bg-gray-700 text-white placeholder-gray-400"
+              required
+            />
+            <button 
+              type="submit"
+              className="absolute right-2 top-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white p-1 rounded-md transition-all duration-300 flex items-center justify-center"
+            >
+              <FaArrowRight />
+            </button>
+          </form>
+          
+          {subscribed && (
+            <div className="mt-3 p-2 bg-green-900 bg-opacity-30 text-green-300 rounded-lg text-sm border border-green-800 transition-all duration-300">
+              Thanks for subscribing!
+            </div>
+          )}
+          
+          <div className="mt-6 bg-gradient-to-r from-blue-900 to-blue-800 p-4 rounded-lg border border-blue-700">
+            <h4 className="text-white font-medium mb-2">Market Update</h4>
+            <p className="text-xs text-blue-200">S&P 500 gained 1.2% today. Tech stocks lead the rally.</p>
           </div>
         </div>
       </div>
+
       {/* Divider */}
-      <div className="my-6 border-t border-cyan-100/30 w-full max-w-5xl mx-auto z-20 relative"></div>
-      {/* Copyright */}
-      <p className="text-cyan-100 font-semibold text-xs relative z-20">
-        &copy; 2025 Greg Investments. All Rights Reserved. <span className="text-yellow-200">@ata</span>
-      </p>
-      {/* Animated blue glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-20 bg-gradient-to-r from-cyan-400/30 via-blue-400/30 to-blue-900/30 blur-2xl opacity-80 pointer-events-none z-10"></div>
-      {/* Extra blue animated blobs */}
-      <div className="absolute -bottom-10 left-10 w-32 h-32 bg-cyan-400/40 rounded-full blur-2xl animate-pulse pointer-events-none z-10"></div>
-      <div className="absolute -top-8 right-10 w-24 h-24 bg-blue-500/30 rounded-full blur-2xl animate-bounce pointer-events-none z-10"></div>
+      <div className="border-t border-gray-700 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center px-6">
+        <p className="text-sm text-gray-400">
+          © {new Date().getFullYear()} InvestX. All rights reserved.
+        </p>
+        <div className="flex space-x-2 mt-3 md:mt-0">
+          <a href="#" className="text-xs text-gray-400 hover:text-orange-400 transition-colors duration-300 mx-2">
+            Privacy Policy
+          </a>
+          <span className="text-gray-600">|</span>
+          <a href="#" className="text-xs text-gray-400 hover:text-orange-400 transition-colors duration-300 mx-2">
+            Terms of Service
+          </a>
+          <span className="text-gray-600">|</span>
+          <a href="#" className="text-xs text-gray-400 hover:text-orange-400 transition-colors duration-300 mx-2">
+            Compliance
+          </a>
+        </div>
+      </div>
     </footer>
   );
-  }
+}
 
 export default Footer;

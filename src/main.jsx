@@ -1,27 +1,36 @@
-import { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
-import './style.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import About from "./About"
-import Header from "./Header"
-import Home from "./Home"
-import Footer from "./Footer"
-import Contact from "./Contact"
-import Investment from "./Investment"
-import Learnmore from "./Learnmore"
+import React, { useState } from "react";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import './style.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Portfolio from "./Portfolio";
+import Header from "./Header";
+import Dashboard from "./Dashboard";
+import Footer from "./Footer";
+import Market from "./Market";
+import Articles from "./Articles";
+import SideNav from "./SideNav";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+function App() {
+  const [sideNavOpen, setSideNavOpen] = useState(false);
+
+  return (
     <BrowserRouter>
-      <Header />
+      <Header onOpenSideNav={() => setSideNavOpen(true)} />
+      <SideNav open={sideNavOpen} setOpen={setSideNavOpen} />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/investment' element={<Investment />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/learnmore' element={<Learnmore />} />
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/portfolio' element={<Portfolio />} />
+        <Route path='/market' element={<Market />} />
+        <Route path='/articles' element={<Articles />} />
       </Routes>
       <Footer />
     </BrowserRouter>
+  );
+}
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
   </StrictMode>
-)
+);

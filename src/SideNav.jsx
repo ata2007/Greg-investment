@@ -1,121 +1,241 @@
-import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { IoMdClose } from "react-icons/io";
-import { FaHome, FaInfoCircle, FaChartLine, FaEnvelope } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  RiDashboardFill,
+  RiWalletFill,
+  RiStockFill,
+  RiArticleFill,
+  RiSettings4Fill,
+  RiLogoutBoxRFill,
+  RiMenu3Line,
+  RiCloseLine,
+  RiUserFill,
+  RiNotificationFill,
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiMoonFill,
+  RiSunFill,
+} from "react-icons/ri";
 
-function SideNav({ myNav, setMyNav }) {
-  const navRef = useRef();
+const navLinks = [
+  { href: "#dashboard", label: "Dashboard", icon: <RiDashboardFill /> },
+  { href: "#portfolio", label: "Portfolio", icon: <RiWalletFill /> },
+  { href: "#market", label: "Market", icon: <RiStockFill /> },
+  { href: "#articles", label: "Articles", icon: <RiArticleFill /> },
+  { href: "#settings", label: "Settings", icon: <RiSettings4Fill /> },
+];
 
-  // Trap focus and close on outside click or Escape key
+function SideNav({ open, setOpen }) {
+  const [collapsed, setCollapsed] = useState(false);
+  const [active, setActive] = useState("Dashboard");
+  const [darkMode, setDarkMode] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (myNav && navRef.current && !navRef.current.contains(event.target)) {
-        setMyNav(false);
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setOpen(true);
+      } else {
+        setOpen(false);
       }
-    }
-    function handleEscape(event) {
-      if (event.key === "Escape") setMyNav(false);
-    }
-    if (myNav) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleEscape);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
     };
-  }, [myNav, setMyNav]);
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, [setOpen]);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle('dark');
+  };
 
   return (
     <>
-      {/* Overlay */}
-      <div
-        className={`fixed inset-0 z-40 transition-all duration-500 ${
-          myNav ? "bg-black/40 backdrop-blur-sm opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setMyNav(false)}
-        aria-hidden="true"
-      />
-      {/* SideNav Panel */}
-      <aside
-        ref={navRef}
-        className={`fixed top-0 right-0 z-50 h-full w-72 max-w-full rounded-l-2xl shadow-2xl transition-transform duration-500
-          ${myNav ? "translate-x-0" : "translate-x-full"}
-          bg-gradient-to-br from-cyan-900 via-blue-900 to-cyan-700 border-l-4 border-cyan-300/30
-          flex flex-col`}
-        style={{
-          boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-        }}
-        tabIndex={-1}
-        aria-modal="true"
-        role="dialog"
-      >
-        {/* Close Button */}
-        <button
-          onClick={() => setMyNav(false)}
-          className="absolute top-5 right-5 text-white text-3xl bg-gradient-to-br from-cyan-400 via-blue-500 to-blue-900 shadow-lg hover:shadow-cyan-200/60 hover:scale-110 rounded-full p-2 transition-all duration-200 border-2 border-white z-10"
-          aria-label="Close menu"
+      {/* Mobile Toggle */}
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setOpen(!open)}
+          className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-2.5 rounded-xl shadow-lg"
         >
-          <IoMdClose />
-        </button>
-        {/* Navigation */}
-        <nav className="flex-1 flex flex-col justify-center items-center pt-16 pb-10 relative z-10">
-          <ul className="w-full flex flex-col gap-6">
-            <li>
-              <Link
-                to="/"
-                onClick={() => setMyNav(false)}
-                className="flex items-center gap-4 text-white hover:bg-cyan-400/30 px-8 py-3 rounded-lg w-full transition text-lg font-bold tracking-wide shadow hover:shadow-lg"
+          {open ? <RiCloseLine size={22} /> : <RiMenu3Line size={22} />}
+        </motion.button>
+      </div>
+
+      {/* Overlay for mobile */}
+      <AnimatePresence>
+        {open && isMobile && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* SideNav */}
+      <motion.aside
+        initial={{ x: -280 }}
+        animate={{ 
+          x: open ? 0 : (isMobile ? -280 : collapsed ? -220 : 0)
+        }}
+        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+        className={`fixed top-0 left-0 h-full ${
+          collapsed ? "w-20" : "w-64"
+        } bg-gradient-to-b from-gray-900 to-gray-800 text-gray-300 shadow-2xl z-40 flex flex-col transition-width duration-300`}
+      >
+        {/* Logo and Toggle */}
+        <div className="p-5 border-b border-gray-700 flex items-center justify-between">
+          <AnimatePresence>
+            {!collapsed && (
+              <motion.h1 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-xl font-bold text-white"
               >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-md">
-                  <FaHome className="text-white text-2xl" />
-                </span>
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                onClick={() => setMyNav(false)}
-                className="flex items-center gap-4 text-white hover:bg-cyan-400/30 px-8 py-3 rounded-lg w-full transition text-lg font-bold tracking-wide shadow hover:shadow-lg"
-              >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-cyan-500 shadow-md">
-                  <FaInfoCircle className="text-white text-2xl" />
-                </span>
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/investment"
-                onClick={() => setMyNav(false)}
-                className="flex items-center gap-4 text-white hover:bg-cyan-400/30 px-8 py-3 rounded-lg w-full transition text-lg font-bold tracking-wide shadow hover:shadow-lg"
-              >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-400 shadow-md">
-                  <FaChartLine className="text-white text-2xl" />
-                </span>
-                Investment
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                onClick={() => setMyNav(false)}
-                className="flex items-center gap-4 text-white hover:bg-cyan-400/30 px-8 py-3 rounded-lg w-full transition text-lg font-bold tracking-wide shadow hover:shadow-lg"
-              >
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 shadow-md">
-                  <FaEnvelope className="text-white text-2xl" />
-                </span>
-                Contact
-              </Link>
-            </li>
-          </ul>
+                Invest<span className="text-orange-500">X</span>
+              </motion.h1>
+            )}
+          </AnimatePresence>
+          
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setCollapsed(!collapsed)}
+            className="hidden md:flex items-center justify-center w-8 h-8 rounded-lg bg-gray-700 hover:bg-gray-600 text-white"
+          >
+            {collapsed ? <RiArrowRightSLine /> : <RiArrowLeftSLine />}
+          </motion.button>
+        </div>
+
+        {/* User Profile */}
+        <div className="p-5 border-b border-gray-700">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white font-semibold">
+              JD
+            </div>
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-white font-medium">John Doe</p>
+                  <p className="text-xs text-gray-400">Premium Investor</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <nav className="flex-1 p-4 space-y-1">
+          {navLinks.map((link) => (
+            <motion.button
+              key={link.label}
+              whileHover={{ x: 5 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => {
+                setActive(link.label);
+                if (isMobile) setOpen(false);
+              }}
+              className={`flex items-center gap-3 w-full px-4 py-3.5 rounded-xl transition-all ${
+                active === link.label
+                  ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg"
+                  : "hover:bg-gray-700 hover:text-white"
+              }`}
+            >
+              <span className={`text-lg ${active === link.label ? 'text-white' : 'text-gray-400'}`}>
+                {link.icon}
+              </span>
+              <AnimatePresence>
+                {!collapsed && (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="font-medium"
+                  >
+                    {link.label}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          ))}
         </nav>
-        {/* Decorative Blobs */}
-        <div className="absolute -bottom-10 left-10 w-28 h-28 bg-cyan-400/30 rounded-full blur-2xl animate-pulse pointer-events-none z-0"></div>
-        <div className="absolute -top-8 right-8 w-20 h-20 bg-blue-500/20 rounded-full blur-2xl animate-bounce pointer-events-none z-0"></div>
-        <div className="absolute bottom-1/3 right-0 w-16 h-16 bg-cyan-300/20 rounded-full blur-2xl animate-spin pointer-events-none z-0"></div>
-      </aside>
+
+        {/* Theme Toggle */}
+        <div className="p-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleDarkMode}
+            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 transition-colors"
+          >
+            <span className="text-lg">
+              {darkMode ? <RiSunFill /> : <RiMoonFill />}
+            </span>
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {darkMode ? "Light Mode" : "Dark Mode"}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </div>
+
+        {/* Logout */}
+        <div className="p-4 border-t border-gray-700">
+          <motion.button
+            whileHover={{ x: 5 }}
+            whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-red-400 hover:bg-red-600 hover:text-white transition-colors"
+          >
+            <RiLogoutBoxRFill className="text-lg" />
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="font-medium"
+                >
+                  Logout
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </div>
+
+        {/* Collapsed Indicator */}
+        {collapsed && (
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+            <div className="w-1 h-1 rounded-full bg-gray-600"></div>
+          </div>
+        )}
+      </motion.aside>
+
+      {/* Main content adjustment for sidebar */}
+      <div 
+        className={`transition-all duration-300 ${
+          collapsed ? "md:ml-20" : "md:ml-64"
+        }`}
+      />
     </>
   );
 }
