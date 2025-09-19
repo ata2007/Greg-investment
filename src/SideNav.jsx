@@ -29,24 +29,20 @@ function SideNav({ open, setOpen }) {
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState("Dashboard");
   const [darkMode, setDarkMode] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-  // Check if device is mobile
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
-        setOpen(true);
-      } else {
+      setIsMobile(window.innerWidth < 1024);
+      if (window.innerWidth >= 1024) {
         setOpen(false);
       }
     };
-
-    checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
-    
     return () => window.removeEventListener('resize', checkIsMobile);
   }, [setOpen]);
+
+  if (!isMobile) return null;
 
   // Toggle dark mode
   const toggleDarkMode = () => {
