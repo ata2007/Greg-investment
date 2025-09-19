@@ -16,13 +16,14 @@ import {
   RiMoonFill,
   RiSunFill,
 } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const navLinks = [
-  { href: "#dashboard", label: "Dashboard", icon: <RiDashboardFill /> },
-  { href: "#portfolio", label: "Portfolio", icon: <RiWalletFill /> },
-  { href: "#market", label: "Market", icon: <RiStockFill /> },
-  { href: "#articles", label: "Articles", icon: <RiArticleFill /> },
-  { href: "#settings", label: "Settings", icon: <RiSettings4Fill /> },
+  { to: "/", label: "Dashboard", icon: <RiDashboardFill /> },
+  { to: "/portfolio", label: "Portfolio", icon: <RiWalletFill /> },
+  { to: "/market", label: "Market", icon: <RiStockFill /> },
+  { to: "/articles", label: "Articles", icon: <RiArticleFill /> },
+  { to: "/settings", label: "Settings", icon: <RiSettings4Fill /> },
 ];
 
 function SideNav({ open, setOpen }) {
@@ -116,7 +117,7 @@ function SideNav({ open, setOpen }) {
         <div className="p-5 border-b border-gray-700">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white font-semibold">
-              JD
+              ATA
             </div>
             <AnimatePresence>
               {!collapsed && (
@@ -126,7 +127,7 @@ function SideNav({ open, setOpen }) {
                   exit={{ opacity: 0, x: -10 }}
                   className="overflow-hidden"
                 >
-                  <p className="text-white font-medium">John Doe</p>
+                  <p className="text-white font-medium">Armstrong</p>
                   <p className="text-xs text-gray-400">Premium Investor</p>
                 </motion.div>
               )}
@@ -137,10 +138,9 @@ function SideNav({ open, setOpen }) {
         {/* Navigation Links */}
         <nav className="flex-1 p-4 space-y-1">
           {navLinks.map((link) => (
-            <motion.button
+            <Link
               key={link.label}
-              whileHover={{ x: 5 }}
-              whileTap={{ scale: 0.97 }}
+              to={link.to}
               onClick={() => {
                 setActive(link.label);
                 if (isMobile) setOpen(false);
@@ -166,7 +166,7 @@ function SideNav({ open, setOpen }) {
                   </motion.span>
                 )}
               </AnimatePresence>
-            </motion.button>
+            </Link>
           ))}
         </nav>
 

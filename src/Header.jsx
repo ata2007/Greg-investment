@@ -118,10 +118,10 @@ const Header = ({ onOpenSideNav }) => {
             >
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-orange-500 
                 flex items-center justify-center text-white font-semibold text-sm">
-                JD
+                ATA
               </div>
               {/* Only show name and caret on md+ screens */}
-              <span className="hidden md:inline-block text-gray-700 font-medium">John Doe</span>
+              <span className="hidden md:inline-block text-gray-700 font-medium">Armstrong</span>
               <FaCaretDown className={`text-gray-500 transition-transform duration-300 ${menuOpen ? 'rotate-180' : ''}`} />
             </button>
 
